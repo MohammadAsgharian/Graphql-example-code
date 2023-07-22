@@ -18,7 +18,7 @@ public class ProductRepository : IProduct
     }
        
 
-    public async Task<bool> DeleteProductAsync(long id, CancellationToken cancellationToken)
+    public async Task<bool> DeleteProductAsync(Guid id, CancellationToken cancellationToken)
         => await _db.Products.Where(product => product.Id == id).ExecuteDeleteAsync(cancellationToken) > 0;
 
 
