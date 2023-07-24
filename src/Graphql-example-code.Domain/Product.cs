@@ -1,7 +1,6 @@
 ﻿namespace Graphql_example_code.Domain;
-public class Product
+public class Product : Entity<Guid>
 {
-    public Guid Id { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
 
