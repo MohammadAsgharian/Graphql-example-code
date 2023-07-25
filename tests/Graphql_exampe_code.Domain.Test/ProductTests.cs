@@ -1,5 +1,5 @@
-﻿using Graphql_example_code.Domain;
-using Xunit;
+﻿using Xunit;
+using Graphql_example_code.Domain;
 
 namespace Domain.Test;
 public class ProductTests
@@ -19,7 +19,21 @@ public class ProductTests
         Assert.Equal(description, product.Description);
     }
 
-  
+    [Fact]
+    public void Product_SetUpdate_ShouldSetProperties()
+    {
+        // Arrange
+        string title = "Test Product";
+        string description = "This is a test product.";
+        var product = Product.CreateNew("product1", "description1");
+        
+        // Act
+        product.SetUpdate(title, description);
+
+        // Assert 
+        Assert.Equal(title, product.Title);
+        Assert.Equal(description, product.Description);
+    }
 
     [Fact]
     public void Product_Equals_ShouldReturnFalseForDifferentProducts()

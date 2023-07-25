@@ -1,5 +1,5 @@
 ﻿namespace Graphql_example_code.Application.Core.Results;
-public  class Error
+public class Error
 {
     public string Message { get; }
     public Error(string message)
@@ -11,7 +11,7 @@ public  class Error
     /// We don't have an Error
     /// </summary>
     public static readonly List<string> None = new List<string>();
-
+    public static readonly List<string> NotFound = new List<string> { new("Not Found Error")};
 
     /// <summary>
     /// Error to Retrieve data from database

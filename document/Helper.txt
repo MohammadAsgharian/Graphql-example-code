@@ -1,0 +1,22 @@
+//======================    addProduct      ======================//
+Operations
+-----------
+mutation($createProduct: CreateProductRequestInput!) {
+    addProduct(createProductRequest:$createProduct){
+        value,
+        isSuccess,
+        isFailure,
+        error
+    }
+}
+
+GraphQL Variables
+------------------
+{
+    "createProduct":
+      {
+        "title":"Nintendo",
+        "description":""
+      }
+}
+//==============================================================//

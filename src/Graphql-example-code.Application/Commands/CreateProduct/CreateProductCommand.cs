@@ -3,7 +3,7 @@ using Graphql_example_code.Application.Core.Commands;
 using Graphql_example_code.Application.Core.Results;
 
 namespace Graphql_example_code.Application.Commands.CreateProduct;
-public record CreateProductCommand : Command<ResultT<bool>>
+public record CreateProductCommand : Command<ResultT<Guid>>
 {
     public CreateProductRequest _product { get; init; }
 

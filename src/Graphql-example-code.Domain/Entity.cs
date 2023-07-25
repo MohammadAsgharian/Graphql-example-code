@@ -1,52 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Graphql_example_code.Domain
+﻿namespace Graphql_example_code.Domain;
+public abstract class Entity<TKey>
 {
-    public abstract class Entity<TKey>
+    public TKey Id { get; protected set; }
+
+    /// <summary>
+    /// Check Equality of Two Entities
+    /// </summary>
+    /// <param name="obj">Entity</param>
+    /// <returns>boolean</returns>
+    public override bool Equals(object obj)
     {
-        public TKey Id { get; protected set; }
+        var entity = obj as Entity<TKey>;
+        return entity != null &&
+            GetType() == entity.GetType() &&
+            EqualityComparer<TKey>.Default.Equals(Id, entity.Id);
+    }
 
-        /// <summary>
-        /// Check Equality of Two Entities
-        /// </summary>
-        /// <param name="obj">Entity</param>
-        /// <returns>boolean</returns>
-        public override bool Equals(object obj)
-        {
-            var entity = obj as Entity<TKey>;
-            return entity != null &&
-                GetType() == entity.GetType() &&
-                EqualityComparer<TKey>.Default.Equals(Id, entity.Id);
-        }
+    public static bool operator ==(Entity<TKey> a, Entity<TKey> b)
+    {
+        if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+            return true;
 
-        public static bool operator ==(Entity<TKey> a, Entity<TKey> b)
-        {
-            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
-                return true;
+        if (ReferenceEquals(a, null) || b is null)
+            return false;
 
-            if (ReferenceEquals(a, null) || b is null)
-                return false;
+        return a.Equals(b);
+    }
 
-            return a.Equals(b);
-        }
+    public static bool operator !=(Entity<TKey> a, Entity<TKey> b)
+    {
+        return !(a == b);
+    }
 
-        public static bool operator !=(Entity<TKey> a, Entity<TKey> b)
-        {
-            return !(a == b);
-        }
-
-        /// <summary>
-        /// Combines GetType() value and Id into a hash code.
-        /// </summary>
-        /// <returns>HashCode</returns>
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(GetType(), Id);
-        }
+    /// <summary>
+    /// Combines GetType() value and Id into a hash code.
+    /// </summary>
+    /// <returns>HashCode</returns>
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(GetType(), Id);
     }
 }

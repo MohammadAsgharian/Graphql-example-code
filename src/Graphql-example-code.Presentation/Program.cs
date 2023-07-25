@@ -1,7 +1,7 @@
 using Graphql_example_code.Infrastructure;
-using Graphql_example_code.Infrastructure.Persistence;
 using Graphql_example_code.Presentation.Configurations;
-using Graphql_example_code.Presentation.Queries;
+using Graphql_example_code.Presentation.Mutations;
+using Graphql_example_code.Presentation.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,8 @@ builder.Services.AddDatabaseSetup(builder.Configuration);
 builder.Services.RegisterServices();
 
 builder.Services.AddGraphQLServer()
-    .AddQueryType<ProductQuery>();
+    .AddQueryType<ProductTypes>()
+    .AddMutationType<ProductMutations>();
 
 
 var app = builder.Build();

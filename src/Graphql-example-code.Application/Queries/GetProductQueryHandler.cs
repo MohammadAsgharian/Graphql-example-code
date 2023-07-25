@@ -2,7 +2,7 @@
 using Graphql_example_code.Domain;
 using MediatR;
 
-namespace Graphql_example_code.Application.Queries.GetProduct;
+namespace Graphql_example_code.Application.Queries;
 public record class GetProductQuery : IRequest<ResultT<List<Product>>>
 {
     public GetProductQuery()
@@ -14,24 +14,24 @@ public class GetProductQueryHandler :
 {
     private readonly IProduct _productRepository;
     public GetProductQueryHandler(IProduct productRepository)
-        => this._productRepository = productRepository;
+        => _productRepository = productRepository;
 
     public async Task<ResultT<List<Product>>> Handle(GetProductQuery query, CancellationToken cancellationToken)
     {
         try
         {
-            var result = 
+            var result =
                 await _productRepository.GetProductAsync(cancellationToken);
             return new ResultT<List<Product>>(
                 result,
                 true,
                 Error.None);
         }
-        catch(Exception ex) 
+        catch (Exception ex)
         {
             return new ResultT<List<Product>>(
                 null,
-                true,
+                false,
                 Error.GetDatabaseError(ex.Message));
         }
     }

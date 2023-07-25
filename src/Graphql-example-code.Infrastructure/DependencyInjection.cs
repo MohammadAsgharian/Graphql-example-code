@@ -1,4 +1,4 @@
-﻿using Graphql_example_code.Application.Queries.GetProduct;
+﻿using Graphql_example_code.Application.Queries;
 using Graphql_example_code.Domain;
 using Graphql_example_code.Infrastructure.Persistence;
 using Graphql_example_code.Infrastructure.Repositories;
@@ -31,7 +31,6 @@ public static class DependencyInjection
             var context = serviceProviders.GetRequiredService<ProductContext>();
             SeedData.Initialize(serviceProviders);
         }
-
 
         return services;
     }

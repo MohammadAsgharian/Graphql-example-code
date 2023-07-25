@@ -4,6 +4,15 @@ public class Product : Entity<Guid>
     public string Title { get; private set; }
     public string Description { get; private set; }
 
+    private Product(
+      string title,
+      string description)
+    {
+        Id = Guid.NewGuid();
+        Title = title;
+        Description = description;
+    }
+
     public static Product CreateNew(
       string title,
       string description)
@@ -12,11 +21,11 @@ public class Product : Entity<Guid>
             title,
             description);
     }
-    private Product(
-        string title,
-        string description)
+  
+    public void SetUpdate(
+          string title,
+          string description)
     {
-       Id = Guid.NewGuid();
         Title = title;
         Description = description;
     }
