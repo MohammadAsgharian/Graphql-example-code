@@ -34,14 +34,14 @@ public class ProductRepository : IProduct
     public async Task<Product> GetProductByIdAsync(
         Guid id,
         CancellationToken cancellationToken)
-        => await _db.Products.Where(product => product.Id == id)
+        => await _db.Products.Where(p => p.Id == id)
                                 .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Guid> UpdateProductAsync(
         Product product,
         CancellationToken cancellationToken)
     {
-        _db.Products.Where(product => product.Id == product.Id)
+        _db.Products.Where(p => p.Id == product.Id)
                             .ExecuteUpdateAsync(s => s.SetProperty(b => b.Title, product.Title)
                                                         .SetProperty(b => b.Description, product.Description), cancellationToken);
 
