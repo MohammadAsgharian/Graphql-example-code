@@ -3,7 +3,7 @@ using Graphql_example_code.Application.Core;
 using Graphql_example_code.Application.Core.Results;
 
 namespace Graphql_example_code.Application.Commands.CreateProduct;
-internal class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
     public CreateProductCommandValidator()
     {

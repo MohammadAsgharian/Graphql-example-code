@@ -17,5 +17,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\src\Graphql-example-code.Application\Graphql-example-code.Application.csproj" />
+	  <ProjectReference Include="..\..\src\Graphql-example-code.Infrastructure\Graphql-example-code.Infrastructure.csproj" />
 	</ItemGroup>
 </Project>
