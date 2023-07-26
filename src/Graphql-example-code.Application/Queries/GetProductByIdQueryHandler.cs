@@ -25,17 +25,11 @@ public class GetProductQueryByIdHandler :
         {
             var result =
                 await _productRepository.GetProductByIdAsync(query._id,cancellationToken);
-            return new ResultT<Product>(
-                result,
-                true,
-                Error.None);
+            return Result.Ok(result);
         }
         catch (Exception ex)
         {
-            return new ResultT<Product>(
-                null,
-                false,
-                Error.GetDatabaseError(ex.Message));
+            return Result.Fail<Product>(Error.GetDatabaseError(ex.Message)); ;
         }
     }
 }

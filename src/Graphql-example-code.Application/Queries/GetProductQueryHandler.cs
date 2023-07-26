@@ -22,17 +22,11 @@ public class GetProductQueryHandler :
         {
             var result =
                 await _productRepository.GetProductAsync(cancellationToken);
-            return new ResultT<List<Product>>(
-                result,
-                true,
-                Error.None);
+            return Result.Ok(result);
         }
         catch (Exception ex)
         {
-            return new ResultT<List<Product>>(
-                null,
-                false,
-                Error.GetDatabaseError(ex.Message));
+            return Result.Fail<List<Product>>(Error.GetDatabaseError(ex.Message));
         }
     }
 }

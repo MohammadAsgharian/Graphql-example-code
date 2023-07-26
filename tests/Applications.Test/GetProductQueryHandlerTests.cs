@@ -37,7 +37,7 @@ public class GetProductQueryHandlerTests
         // Assert
         Assert.True(result.IsSuccess); // Check if the ResultT indicates success
         Assert.False(result.IsFailure); // Check if the ResultT indicates success
-        Assert.Empty(result.Error); // Check if there's no error
+        Assert.Empty(result.ErrorMessages); // Check if there's no error
 
         // Validate the returned products
         Assert.Equal(expectedProducts[0].Id, result.Value[0].Id);
@@ -72,9 +72,9 @@ public class GetProductQueryHandlerTests
         // Assert
         Assert.False(result.IsSuccess); // Check if the ResultT indicates success (even on exception)
         Assert.True(result.IsFailure);  // Check if the ResultT indicates failure (even on exception)
-        Assert.Single(result.Error); // Check if there's an error list
+        Assert.Single(result.ErrorMessages); // Check if there's an error list
         Assert.Null(result.Value); // Check result.Value is Null
         // You can also check the specific error message if you have them defined.
-        Assert.Equal("Test exception", result.Error[0]);
+        Assert.Equal("Test exception", result.ErrorMessages[0]);
     }
 }

@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Graphql_example_code.Application.Commands.CreateProduct
 {
-    public class CreateProductCommandHandler : CommandHandler<CreateProductCommand, ResultT<Guid>>
+    public class CreateProductCommandHandler : 
+        CommandHandler<CreateProductCommand, ResultT<Guid>>
     {
         private readonly IProduct _productRepository;
         public CreateProductCommandHandler(IProduct productRepository)
@@ -31,28 +32,19 @@ namespace Graphql_example_code.Application.Commands.CreateProduct
                     var result =
                         await _productRepository.AddProductAsync(newProduct, cancellationToken);
 
-                    return new ResultT<Guid>(
-                        value: result,
-                        isSuccess: true,
-                        errors: Error.None);
+                    return Result.Ok(result);
                 }
                 catch (Exception ex)
                 {
-                    return new ResultT<Guid>(
-                        value: Guid.Empty,
-                        isSuccess: false,
-                        errors: Error.GetDatabaseError(ex.Message));
+                    return Result.Fail<Guid>(Error.GetDatabaseError(ex.Message));
                 }
             }
             else
             {
-                var result = 
+                var validationErrors = 
                     commandResult.ValidationResult.Errors.ToResultError();
 
-                return new ResultT<Guid>(
-                    value: Guid.Empty,
-                    isSuccess: false,
-                    errors: result);
+                return Result.Fail<Guid>(validationErrors);
             }
         }
     }

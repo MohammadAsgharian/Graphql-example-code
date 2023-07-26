@@ -43,28 +43,18 @@ namespace Graphql_example_code.Application.Commands.UpdateProduct
                     var result =
                         await _productRepository.UpdateProductAsync(product, cancellationToken);
 
-                    return new ResultT<Guid>(
-                        value: result,
-                        isSuccess: true,
-                        errors: Error.None);
+                    return Result.Ok(value: result);
                 }
                 catch(Exception ex)
                 {
-                    return new ResultT<Guid>(
-                        value: Guid.Empty,
-                        isSuccess: false,
-                        errors: Error.GetDatabaseError(ex.Message));
+                    return Result.Fail<Guid>(errors: Error.GetDatabaseError(ex.Message));
                 }
 
             }
             else
             {
-                var result = commandResult.ValidationResult.Errors.ToResultError();
-                return new ResultT<Guid>(
-                    value: Guid.Empty,
-                    isSuccess: false,
-                    errors: result);
-
+                var validationErrors = commandResult.ValidationResult.Errors.ToResultError();
+                return Result.Fail<Guid>(validationErrors);
             }
         }
     }
