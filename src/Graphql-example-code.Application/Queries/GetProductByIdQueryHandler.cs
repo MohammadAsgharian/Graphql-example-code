@@ -12,11 +12,11 @@ public record class GetProductByIdQuery
         _id = id;
     }
 }
-public class GetProductQueryByIdHandler :
+public class GetProductByIdQueryHandler :
       IRequestHandler<GetProductByIdQuery, ResultT<Product>>
 {
     private readonly IProduct _productRepository;
-    public GetProductQueryByIdHandler(IProduct productRepository)
+    public GetProductByIdQueryHandler(IProduct productRepository)
         => _productRepository = productRepository;
 
     public async Task<ResultT<Product>> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)

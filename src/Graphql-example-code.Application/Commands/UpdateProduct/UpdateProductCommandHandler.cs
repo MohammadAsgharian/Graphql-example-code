@@ -29,16 +29,12 @@ namespace Graphql_example_code.Application.Commands.UpdateProduct
                     await _productRepository.GetProductByIdAsync(command._product.Id, cancellationToken);
 
                     if (product is null)
-                        return new ResultT<Guid>(
-                            Guid.Empty,
-                            false,
-                            Error.NotFound);
+                        return Result.Fail<Guid>(Error.NotFound);
 
                     product.SetUpdate(
                         command._product.Title,
                         command._product.Description
                         );
-
 
                     var result =
                         await _productRepository.UpdateProductAsync(product, cancellationToken);
@@ -47,7 +43,7 @@ namespace Graphql_example_code.Application.Commands.UpdateProduct
                 }
                 catch(Exception ex)
                 {
-                    return Result.Fail<Guid>(errors: Error.GetDatabaseError(ex.Message));
+                    return Result.Fail<Guid>(Error.GetDatabaseError(ex.Message));
                 }
 
             }
