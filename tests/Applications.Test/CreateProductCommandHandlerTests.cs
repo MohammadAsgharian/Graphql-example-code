@@ -6,10 +6,51 @@ using Graphql_example_code.Application.Core.Commands;
 using Graphql_example_code.Application.Commands.CreateProduct;
 using Microsoft.Extensions.DependencyInjection;
 using Graphql_example_code.Infrastructure.Repositories;
+using Graphql_example_code.Infrastructure.Persistence;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Threading;
 
 namespace Applications.Test;
 public class CreateProductCommandHandlerTests
 {
+
+    [Fact]
+    public async Task CreateProductCommandHandler_Should_AddProductToDatabase()
+    {
+        // Arrange
+        var createProductRequest = 
+            new CreateProductRequest("Test Product", "This is a test product.");
+        string ConnectionString = 
+            "data source=.;initial catalog=GraphqlSample;TrustServerCertificate=True;Integrated Security=true";
+        var options = new DbContextOptionsBuilder<ProductContext>()
+                .UseSqlServer(ConnectionString)
+                .Options;
+
+
+        var createProductCommand = new CreateProductCommand(createProductRequest);
+        var productRepository = new ProductRepository(new ProductContext(options));
+        var commandHandler = new CreateProductCommandHandler(productRepository);
+
+        var cancellationToken = 
+            new CancellationToken();
+
+        // Act
+        var validationResult = createProductCommand.Validate();
+        var result = await commandHandler.ExecuteCommand(
+            new CommandHandlerResult<ResultT<Guid>>(createProductCommand),
+            createProductCommand,
+            cancellationToken);
+
+        // Assert
+        Assert.True(validationResult.IsValid);
+        Assert.True(result.IsSuccess);
+        Assert.NotEqual(Guid.Empty, result.Value); // Check if a new GUID was returned
+        Assert.NotNull(await productRepository.GetProductByIdAsync(result.Value, default)); // Check if the product was added to the database
+    }
+
+
     [Fact]
     public async Task ExecuteCommand_ValidRequest_ReturnsSuccessResult()
     {
